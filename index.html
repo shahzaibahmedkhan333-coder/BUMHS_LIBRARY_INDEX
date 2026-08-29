@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Library Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+   body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fdfcfb;
+    /* Subtle academic pattern */
+    background-image: radial-gradient(#e8dccb 0.5px, transparent 0.5px);
+    background-size: 20px 20px;
+}
+
+   /* Update these lines in your <style> section */
+.category-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-top: 4px solid #800000; /* Deep Maroon Accent Top */
+    background: #ffffff;
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-top-color: #c39a6b; /* Changes to Sandy Earth on hover */
+}
+
+    .search-container {
+        /* Deep BUMHS Maroon Gradient */
+        background: linear-gradient(135deg, #E79800 0%, #E79800 100%);
+    }
+
+    /* Custom scrollbar in Sandy Earth tones */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f9f5f0; }
+    ::-webkit-scrollbar-thumb { background: #c39a6b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #966946; }
+
+    @keyframes pulse-soft {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+    .loading-dots { animation: pulse-soft 1.5s infinite; }
+
+    @keyframes marquee-continuous {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-continuous {
+    animation: marquee-continuous 25s linear infinite;
+}
+
+/* Pause the scrolling animation gracefully if a student hovers over it to read carefully */
+.animate-marquee-continuous:hover {
+    animation-play-state: paused;
+}
+</style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- Fancy Continuous Announcement Strip -->
+<div class="relative w-full bg-[#1c0000] border-b border-[#E79800]/30 py-2.5 overflow-hidden shadow-md flex items-center z-50">
+    <!-- Subtle overlay grid pattern to make it look premium -->
+    <div class="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+    
+    <!-- Moving Text Track -->
+    <div class="flex whitespace-nowrap animate-marquee-continuous text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-white/80">
+        <!-- Loop Item 1 -->
+        <span class="flex items-center gap-4 mx-8">
+            <i class="fas fa-bullhorn text-[#E79800] text-xs shadow-glow"></i> 
+            Important Notice: <span class="text-[#E79800] drop-shadow-[0_0_8px_rgba(231,152,0,0.5)] font-black">Student's Portal Login</span> will launch soon
+        </span>
+        <!-- Loop Item 2 -->
+        <span class="flex items-center gap-4 mx-8">
+            <i class="fas fa-university text-[#E79800] text-xs"></i> 
+            BUMHS Digital Services: <span class="text-[#E79800] drop-shadow-[0_0_8px_rgba(231,152,0,0.5)] font-black">Student's Portal Login</span> will launch soon
+        </span>
+        <!-- Loop Item 3 -->
+        <span class="flex items-center gap-4 mx-8">
+            <i class="fas fa-graduation-cap text-[#E79800] text-xs"></i> 
+            Academic Updates: <span class="text-[#E79800] drop-shadow-[0_0_8px_rgba(231,152,0,0.5)] font-black">Student's Portal Login</span> will launch soon
+        </span>
+        <!-- Loop Item 4 (Duplicate set for a perfectly seamless loop layout) -->
+        <span class="flex items-center gap-4 mx-8">
+            <i class="fas fa-bullhorn text-[#E79800] text-xs"></i> 
+            Important Notice: <span class="text-[#E79800] drop-shadow-[0_0_8px_rgba(231,152,0,0.5)] font-black">Student's Portal Login</span> will launch soon
+        </span>
+        <span class="flex items-center gap-4 mx-8">
+            <i class="fas fa-university text-[#E79800] text-xs"></i> 
+            BUMHS Digital Services: <span class="text-[#E79800] drop-shadow-[0_0_8px_rgba(231,152,0,0.5)] font-black">Student's Portal Login</span> will launch soon
+        </span>
+    </div>
+</div>
+ <nav class="w-full bg-[#800000] border-b-2 border-[#E79800] py-3 px-4 md:px-8 flex justify-between items-center sticky top-0 z-50 shadow-2xl">
+    
+    <!-- Left: Brand Logo Block -->
+    <div class="flex items-center gap-3 group cursor-pointer">
+        <div class="bg-white p-1.5 rounded-lg shadow-inner overflow-hidden">
+            <img src="bum.png" alt="Logo" 
+                 class="h-9 w-auto transition-all duration-300 group-hover:brightness-125 group-hover:contrast-125 group-hover:drop-shadow-[0_0_5px_#E79800]">
+        </div>
+        <div class="flex flex-col">
+            <span class="font-black text-white tracking-tighter text-xl leading-none group-hover:text-[#E79800] transition-colors">BUMHS</span>
+            <span class="text-[10px] font-bold text-[#E79800] tracking-[0.2em] uppercase">Digital Library</span>
+        </div>
+    </div>
+
+    <!-- Center: Perfectly Centered & Aligned Navigation Links -->
+    <div class="hidden lg:flex items-center gap-8 text-[12px] font-bold uppercase tracking-widest text-white/90">
+        
+        <a href="https://bumhs.edu.pk/" class="relative py-2 hover:text-[#E79800] transition-all duration-300 group">
+            Home
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#E79800] transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        
+        <a href="https://www.freebookcentre.net/medical_text_books_journals/nursing-books.html" class="relative py-2 hover:text-[#E79800] transition-all duration-300 group">
+            A.H.S Digital Resources & BOOKS
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#E79800] transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        
+        <a href="https://www.digitallibrary.edu.pk/" class="relative py-2 hover:text-[#E79800] transition-all duration-300 group">
+            HEC Services
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#E79800] transition-all duration-300 group-hover:w-full"></span>
+        </a>
+        
+        <!-- Menu 3: Research & Support Dropdown -->
+        <div class="relative py-2 group cursor-pointer">
+            <span class="hover:text-[#E79800] transition-colors flex items-center gap-1">
+                ALLIED HEALTH SCIENCES COURSES & ONINE LECTURES<i class="fas fa-chevron-down text-[8px] tracking-normal"></i>
+            </span>
+            <!-- Dropdown Menu -->
+            <div class="absolute left-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-stone-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0">
+                <div class="p-2 flex flex-col gap-1 text-[11px] font-semibold tracking-normal text-stone-700 normal-case">
+                    <a href="https://www.youtube.com/playlist?list=PLejZUVgUIfX7Dzg1xRjGUil2foCLqsiYg" class="px-3 py-2 rounded-lg hover:bg-[#800000]/5 hover:text-[#800000] flex items-center gap-2"><i class="fas fa-quote-right text-[#E79800]"></i> NURSING</a>
+                    <a href="https://cursa.app/free-courses-physiotherapy-online" class="px-3 py-2 rounded-lg hover:bg-[#800000]/5 hover:text-[#800000] flex items-center gap-2"><i class="fas fa-file-medical text-[#E79800]"></i> DPT</a>
+                    <a href="https://alison.com/careers/health/nurse-anesthetist?utm_source=bing&utm_medium=cpc&utm_campaign=533576940&utm_content=1354601042579974&utm_term=kwd-2336462210200083:loc-144&msclkid=4d1f20e4f3001a96e9be4afbef7bf3f7#google_vignette" class="px-3 py-2 rounded-lg hover:bg-[#800000]/5 hover:text-[#800000] flex items-center gap-2"><i class="fas fa-chalkboard-teacher text-[#E79800]"></i> ANESTHESIA</a>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" class="relative py-2 hover:text-[#E79800] transition-all duration-300 group">
+            Contact
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#E79800] transition-all duration-300 group-hover:w-full"></span>
+        </a>
+    </div>
+
+    <!-- Right: Portal Login Button -->
+    <div class="flex items-center gap-4">
+        <button class="flex items-center gap-2 text-xs font-black text-[#800000] bg-[#E79800] border-2 border-[#E79800] px-5 py-2 rounded-lg hover:bg-transparent hover:text-[#E79800] transition-all duration-300 shadow-lg">
+            <i class="fas fa-sign-in-alt"></i>
+            PORTAL LOGIN
+        </button>
+    </div>
+</nav>
+    <div class="max-w-6xl mx-auto">
+    <!-- Header & Search Section -->
+    <div class="search-container rounded-3xl p-8 md:p-12 text-white mb-10 shadow-xl relative overflow-hidden">
+        <div class="relative z-10">
+            
+            <div class="flex justify-center mb-6">
+                <img src="bum.png" alt="BUMHS Logo" class="h-40 w-auto object-contain drop-shadow-lg">
+            </div>
+
+            <h1 class="text-xl md:text-2xl font-semibold mb-3 text-center leading-tight">
+                Digital E-Library Portal For <br> 
+                <span class="opacity-90">Bolan University Of Medical & Health Sciences (BUMHS), Quetta </span>
+            </h1>
+            <p class="text-emerald-100 text-center mb-8 max-w-2xl mx-auto">Access millions of books, journals, theses, and video lectures from world-class digital repositories.</p>
+            <div class="relative max-w-xl mx-auto">
+                <div class="flex flex-col gap-3">
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" id="searchInput" 
+                            class="w-full pl-10 pr-4 py-3 rounded-xl text-gray-900 focus:ring-4 focus:ring-emerald-400 outline-none transition-all" 
+                            placeholder="Search for books, titles, or topics...">
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row gap-2">
+    <select id="searchEngine" class="flex-grow bg-white text-gray-700 px-4 py-3 rounded-xl outline-none font-medium border-none shadow-inner">
+        
+            <optgroup label="General Libraries">
+                <option value="gutenberg">Project Gutenberg</option>
+                <option value="archive">BUMHS Internet Archive</option>
+                <option value="doab">DOAB (Open Access Books)</option>
+                <option value="opentext">Open Textbook Library</option>
+            </optgroup>
+
+            <optgroup label="Medical & Allied Health">
+                <option value="MEDICAL & ALLIED HEALTH SCIENCES">Medical Info Books</option> 
+                <option value="MEDICAL & NURSING INFOR BOOKS">Nursing & Medical Journals</option>
+            </optgroup>
+
+            <optgroup label="Academic & Research">
+                <option value="doaj">DOAJ (Journals)</option>
+                <option value="proquest">ProQuest (Dissertations)</option>
+                <option value="google">Google Scholar</option>
+            </optgroup>
+
+        </select>
+
+        <button onclick="performSearch()" class="bg-emerald-400 hover:bg-emerald-500 text-emerald-950 font-bold px-8 py-3 rounded-xl transition-colors shadow-lg">
+            Search E-Library BUMHS
+        </button>
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Resources Grid -->
+        <div id="libraryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Items injected via JS -->
+        </div>
+
+        <footer class="mt-16 text-center text-gray-500 text-sm border-t pt-8">
+            <p>&copy; BUMHS Quetta  Digital Library Resource Center 2026</p>
+        </footer>
+    </div>
+    <script>
+        const apiKey = ""; 
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        const libraries = [
+            { name: "MEDICAL & Allied Health Science", url:"https://infobooks.org/free-pdf-books/medical/", desc: "Open source books for Allied Health Sciences", category: "Courses & Books", icon: "fa-pen-nib" },
+            { name: "DOAB (Books)", url: "https://www.doabooks.org/", desc: "Directory of Open Access Books. A central hub for peer-reviewed open access books.", category: "General", icon: "fa-book-open" },
+            { name: "Internet Archive", url: "https://archive.org/", desc: "A non-profit library of millions of free books, movies, software, music, and more.", category: "General", icon: "fa-archive" },
+            { name: "Open Textbook Library", url: "https://open.umn.edu/opentextbooks", desc: "A comprehensive collection of peer-reviewed textbooks used in higher education.", category: "General", icon: "fa-graduation-cap" },
+            { name: "Project Gutenberg", url: "https://www.gutenberg.org/", desc: "A library of over 70,000 free eBooks, focusing on classic works.", category: "General", icon: "fa-landmark" },
+            { name: "Digital Book Index", url: "http://www.digitalbookindex.org/_SEARCH/search011t-rev.asp", desc: "Links to more than 165,000 full-text digital books from 1,800 publishers.", category: "General", icon: "fa-list" },
+            { name: "AKU eCommons", url: "https://ecommons.aku.edu/", desc: "The digital repository of Aga Khan University, preserving scholarly works.", category: "General", icon: "fa-university" },
+            { name: "Rekhta (Urdu)", url: "https://www.rekhta.org/ebooks/web", desc: "The world's largest repository of Urdu poetry and literature.", category: "Urdu", icon: "fa-feather" },
+            { name: "Best Urdu Books", url: "https://besturdubooks.net/", desc: "A massive collection of Urdu literature and Islamic books in PDF.", category: "Urdu", icon: "fa-pen-nib" },
+            { name: "Kitab-o-Sunnat", url: "https://kitabosunnat.com/", desc: "A premier Islamic digital library providing authentic Urdu and Arabic books.", category: "Islamic", icon: "fa-moon" },
+            { name: "Arabic Digital Library", url: "https://sites.google.com/site/islamiacollegelibrary/digital-libraries/department-of-arabic", desc: "Curated collection of Arabic manuscripts and books for research.", category: "Arabic", icon: "fa-language" },
+            { name: "DOAJ (Journals)", url: "https://doaj.org/", desc: "Directory of Open Access Journals. Access peer-reviewed open access journals.", category: "Journals", icon: "fa-file-alt" },
+            { name: "ProQuest Dissertations", url: "https://www.proquest.com/?defaultdiss=true", desc: "The world's most comprehensive collection of dissertations and theses.", category: "Theses", icon: "fa-scroll" },
+            { name: "HEC Thesis Repository", url: "http://prr.hec.gov.pk/jspui/", desc: "The official Pakistan Research Repository for Ph.D. and M.Phil theses.", category: "Theses", icon: "fa-award" },
+            { name: "Sabaq Foundation", url: "https://sabaq.pk/", desc: "Pakistan's number one platform for free video lectures covering curriculum.", category: "Video Lectures", icon: "fa-play-circle" },
+             { name: "MEDICAL INFO BOOKS", url: "https://med.libretexts.org/Bookshelves/Nursing", desc: "Free 100+ books of Medical Health Sciences", category: "Courses & Books", icon: "fa-pen-nib" },
+
+
+        ];
+
+        function renderLibraries() {
+            const grid = document.getElementById('libraryGrid');
+           grid.innerHTML = libraries.map(lib => `
+    <div class="category-card group bg-white rounded-2xl overflow-hidden border border-stone-200 flex flex-col h-full hover:border-maroon-200">
+        <!-- Colored top bar -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-[#800000] to-[#c39a6b]"></div>
+        
+        <div class="p-6 flex flex-col h-full">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 bg-stone-50 rounded-2xl flex items-center justify-center text-[#800000] group-hover:bg-[#800000] group-hover:text-white transition-all duration-300">
+                    <i class="fas ${lib.icon} text-xl"></i>
+                </div>
+                <span class="text-[10px] font-black uppercase tracking-widest text-stone-400 bg-stone-100 px-2 py-1 rounded">
+                    ${lib.category}
+                </span>
+            </div>
+
+            <h3 class="font-bold text-gray-800 text-lg group-hover:text-[#800000] transition-colors">${lib.name}</h3>
+            <p class="text-gray-500 text-sm mt-2 mb-6 flex-grow leading-relaxed line-clamp-3">
+                ${lib.desc}
+            </p>
+
+            <a href="${lib.url}" target="_blank" class="flex items-center justify-between group/btn w-full px-4 py-2.5 rounded-xl bg-stone-50 text-[#800000] font-bold text-sm border border-stone-200 hover:bg-[#800000] hover:text-white transition-all">
+                <span>Explore Resource</span>
+                <i class="fas fa-chevron-right text-[10px] transform group-hover/btn:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+    </div>
+`).join('');
+        }
+
+        // Updated Search Functionality with more case handlers
+        function performSearch() {
+            const query = document.getElementById('searchInput').value;
+            const engine = document.getElementById('searchEngine').value;
+            if (!query) return;
+            
+            let searchUrl = "";
+            const encodedQuery = encodeURIComponent(query);
+            
+            switch(engine) {
+                case "archive": 
+                    searchUrl = `https://archive.org/search.php?query=${encodedQuery}`; 
+                    break;
+                case "gutenberg": 
+                    searchUrl = `https://www.gutenberg.org/ebooks/search/?query=${encodedQuery}`; 
+                    break;
+                case "doaj": 
+                    searchUrl = `https://doaj.org/search/articles?source=%7B%22query%22%3A%7B%22query_string%22%3A%7B%22query%22%3A%22${encodedQuery}%22%7D%7D%7D`; 
+                    break;
+                case "google": 
+                    searchUrl = `https://scholar.google.com/scholar?q=${encodedQuery}`; 
+                    break;
+                case "doab":
+                    searchUrl = `https://www.doabooks.org/en/doab/search?term=${encodedQuery}`;
+                    break;
+                case "rekhta":
+                    searchUrl = `https://www.rekhta.org/search/ebooks?q=${encodedQuery}`;
+                    break;
+                case "opentext":
+                    searchUrl = `https://open.umn.edu/opentextbooks/textbooks?term=${encodedQuery}`;
+                    break;
+                case "kitabosunnat":
+                    searchUrl = `https://kitabosunnat.com/search?q=${encodedQuery}`;
+                    break;
+                case "proquest":
+                    searchUrl = `https://www.proquest.com/results?queryTerm=${encodedQuery}`;
+                    break;
+                case "MEDICAL & ALLIED HEALTH SCIENCES":
+                    searchUrl = `https://infobooks.org/free-pdf-books/medical/?queryTerm=${encodedQuery}`;
+                    break;
+                case "MEDICAL & NURSING INFOR BOOKS":
+                    searchUrl = `https://med.libretexts.org/Bookshelves/Nursing?queryTerm=${encodedQuery}`;
+                    break;
+            }
+            window.open(searchUrl, '_blank');
+        }
+
+        // Gemini AI Functions
+        function toggleAI() {
+            const panel = document.getElementById('aiPanel');
+            panel.classList.toggle('hidden');
+        }
+
+        async function askAI(mode) {
+            const searchBarQuery = document.getElementById('searchInput').value;
+            const customQueryInput = document.getElementById('aiCustomInput');
+            const customText = customQueryInput.value;
+            
+            const output = document.getElementById('aiOutput');
+            const loading = document.getElementById('aiLoading');
+            const controls = document.getElementById('aiControls');
+
+            let finalQuery = (mode === 'custom') ? customText : searchBarQuery;
+
+            if (!finalQuery) {
+                output.innerHTML = "<span class='text-red-500 font-bold'>Please type a question in the input field or the main search box!</span>";
+                return;
+            }
+
+            output.innerHTML = "";
+            loading.classList.remove('hidden');
+            controls.classList.add('hidden');
+
+            let systemPrompt = "You are a library research assistant. You help users navigate digital libraries like Internet Archive, Rekhta, DOAJ, and Gutenberg. Be scholarly but accessible.";
+            let userPrompt = "";
+
+            if (mode === 'summarize') userPrompt = `Provide a detailed 3-paragraph summary of the academic importance of: ${finalQuery}. Use professional formatting.`;
+            else if (mode === 'recommend') userPrompt = `Suggest 3-5 specific books or resources that might be available on platforms like Project Gutenberg, Rekhta, or DOAJ regarding: ${finalQuery}. Mention which library would likely have them.`;
+            else if (mode === 'explain') userPrompt = `Explain '${finalQuery}' as if I am a university student starting research. Break down the core concepts and historical context.`;
+            else if (mode === 'custom') userPrompt = finalQuery;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+
+                const data = await response.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response. Please try again.";
+                
+                output.innerHTML = text.replace(/\n/g, '<br>');
+                controls.classList.remove('hidden');
+                if(mode === 'custom') customQueryInput.value = "";
+            } catch (error) {
+                output.innerHTML = "<span class='text-red-500'>Error connecting to AI. Please check your connection.</span>";
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+
+        // Gemini TTS Integration
+        async function speakResponse() {
+            const text = document.getElementById('aiOutput').innerText;
+            if (!text) return;
+
+            const speakBtn = document.querySelector('[onclick="speakResponse()"]');
+            speakBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading Audio...';
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Say in a professional academic voice: ${text.substring(0, 500)}` }] }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } } }
+                        }
+                    })
+                });
+
+                const result = await response.json();
+                const pcmData = result.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+                
+                if (pcmData) {
+                    const audioBlob = pcmToWav(pcmData, 24000);
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                }
+            } catch (e) {
+                console.error("TTS Failed", e);
+            } finally {
+                speakBtn.innerHTML = '<i class="fas fa-volume-up"></i> Listen';
+            }
+        }
+
+        function pcmToWav(base64Pcm, sampleRate) {
+            const pcmBuffer = Uint8Array.from(atob(base64Pcm), c => c.charCodeAt(0)).buffer;
+            const wavHeader = new ArrayBuffer(44);
+            const view = new DataView(wavHeader);
+            const pcmLength = pcmBuffer.byteLength;
+
+            view.setUint32(0, 0x52494646, false); view.setUint32(4, 36 + pcmLength, true);
+            view.setUint32(8, 0x57415645, false); view.setUint32(12, 0x666d7420, false);
+            view.setUint32(16, 16, true); view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true); view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true); view.setUint32(36, 0x64617461, false);
+            view.setUint32(40, pcmLength, true);
+
+            return new Blob([wavHeader, pcmBuffer], { type: 'audio/wav' });
+        }
+
+        function copyResponse() {
+            const text = document.getElementById('aiOutput').innerText;
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert("Copied to clipboard!");
+        }
+
+        // Initialize
+        renderLibraries();
+        document.getElementById('searchInput').addEventListener('keypress', (e) => e.key === 'Enter' && performSearch());
+        document.getElementById('aiCustomInput').addEventListener('keypress', (e) => e.key === 'Enter' && askAI('custom'));
+    </script>
+</body>
+</html>
